@@ -43,6 +43,7 @@ func (cfg *apiConfig) handlerUploadThumbnail(w http.ResponseWriter, r *http.Requ
 			fmt.Sprintf("Could not fetch video with videoId: %d", videoID),
 			err,
 		)
+		return
 	}
 	if video.UserID != userID {
 		respondWithError(w, http.StatusUnauthorized, "Unauthorized", nil)
@@ -58,7 +59,7 @@ func (cfg *apiConfig) handlerUploadThumbnail(w http.ResponseWriter, r *http.Requ
 	file, header, err := r.FormFile("thumbnail")
 
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Unable to parse file", err)
+		respondWithError(w, http.StatusBadRequest, "Unable to parse thumbnail file", err)
 		return
 	}
 	defer file.Close()
